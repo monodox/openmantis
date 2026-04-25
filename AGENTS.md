@@ -4,40 +4,52 @@ This file provides coding-agent context for working on OpenMantis.
 
 ## Project overview
 
-OpenMantis is a Node.js tool/SDK that acts as an optimization layer between an app and local model runtimes (for example Ollama and Foundry Local) using caching, context directory indexing, and prompt tokenization.
+OpenMantis is a monorepo (`https://github.com/monodox/openmantis`) containing Node.js and Python SDKs that act as an optimization layer between an app and local model runtimes (Ollama, Foundry Local) using caching, context directory indexing, and prompt tokenization.
 
 ## Setup commands
 
-- Install deps: `npm install`
-- Run tests: `npm test`
-
-## Development commands (when available)
-
-- Dev server / CLI testing: `node bin/openmantis.js`
+- Install deps (Node): `npm install`
+- Install deps (Python): `cd packages/python && pip install -e ".[dev]"`
+- Run all tests: `npm run test:all`
+- Run Node tests: `npm run test:node`
+- Run Python tests: `npm run test:python`
 
 ## Code style
 
-- JavaScript/TypeScript preferred over dynamic scripting.
-- Use single quotes, no semicolons.
+### Node.js (packages/node)
+- JavaScript, CommonJS modules.
+- Single quotes, no semicolons, tabs for indentation.
 - Prefer small functional helpers over large imperative blocks.
-- Keep modules focused: `src/cli`, `src/core`, `src/runtimes`, `src/platform`.
+- Modules: `src/cli`, `src/core`, `src/runtimes`, `src/platform`.
+
+### Python (packages/python)
+- Python 3.10+.
+- Single quotes, PEP 8 conventions.
+- Modules: `core`, `runtimes`, `platform`.
 
 ## Testing instructions
 
-- Add or update tests in `test/` for any behavior change.
-- Keep tests deterministic (avoid network calls in unit tests; mock runtime adapters where possible).
+- Node tests: `packages/node/test/` — uses Node.js built-in test runner.
+- Python tests: `packages/python/tests/` — uses pytest.
+- Keep tests deterministic. Mock runtime adapters, avoid network calls.
 
 ## Security considerations
 
 - Never execute untrusted code returned by a model.
 - Treat runtime responses and user prompts as untrusted input.
-- Do not log secrets (API keys, auth tokens, full prompt contents if they may include sensitive data).
+- Do not log secrets (API keys, auth tokens, sensitive prompt contents).
 
 ## Repo locations (agent quick reference)
 
-- CLI entrypoint: `bin/openmantis.js`
-- Runtime adapters: `src/runtimes/`
-- Shared core utilities: `src/core/`
+- Root package.json: monorepo orchestrator (npm workspaces, convenience scripts)
+- Node CLI entrypoint: `packages/node/bin/openmantis.js`
+- Node runtime adapters: `packages/node/src/runtimes/`
+- Node shared core: `packages/node/src/core/`
+- Node tests: `packages/node/test/`
+- Python CLI entrypoint: `packages/python/src/openmantis/cli.py`
+- Python runtime adapters: `packages/python/src/openmantis/runtimes/`
+- Python shared core: `packages/python/src/openmantis/core/`
+- Python tests: `packages/python/tests/`
+- Python requirements: `packages/python/requirements.txt`
 - Skills (agent runbooks): `skills/`
-- Skill docs: `docs/` and `docs/skills/` (if present)
-
+- Docs: `docs/`

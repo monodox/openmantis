@@ -1,20 +1,20 @@
 {
-	"name": "@openmantis/openmantis",
-	"version": "0.1.1",
-	"description": "OpenMantis is a small local-model orchestration layer for caching, routing, and prompt budgeting.",
-	"main": "src/index.js",
-	"bin": {
-		"openmantis": "./bin/openmantis.js"
-	},
+	"name": "openmantis",
+	"version": "0.0.0",
+	"private": true,
+	"description": "OpenMantis — Node.js and Python SDKs for local-model orchestration.",
+	"workspaces": [
+		"packages/node"
+	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/openmantis/openmantis.git"
-	},
-	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
+		"url": "https://github.com/monodox/openmantis.git"
 	},
 	"scripts": {
-		"test": "node --test"
+		"test": "npm test --workspace=packages/node",
+		"test:node": "npm test --workspace=packages/node",
+		"test:python": "cd packages/python && python -m pytest",
+		"test:all": "npm run test:node && npm run test:python"
 	},
 	"license": "MIT"
 }
